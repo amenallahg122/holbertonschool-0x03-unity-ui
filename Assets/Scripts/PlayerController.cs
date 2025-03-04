@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     public float speed = 5f;
     private int score = 0;
-	public int health = 5;
+    public int health = 5;
     private Rigidbody rb;
+    public Text scoreText;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        UpdateScoreText();
     }
 
     void FixedUpdate()
@@ -32,7 +34,8 @@ public class PlayerController : MonoBehaviour {
         if (other.CompareTag("Pickup"))
         {
             score++;
-            Debug.Log("Score: " + score);
+            UpdateScoreText();
+            //Debug.Log("Score: " + score);
             other.gameObject.SetActive(false);
         }
 
@@ -46,21 +49,32 @@ public class PlayerController : MonoBehaviour {
                 Debug.Log("Game Over!");
             }
         }
-		if (other.CompareTag("Goal"))
+        
+        if (other.CompareTag("Goal"))
         {
             Debug.Log("You win!");
         }
     }
-	    void Update()
+
+    void Update()
     {
         if (health <= 0)
         {
             Debug.Log("Game Over!");
 
             score = 0;
+            UpdateScoreText();
             health = 5;
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
         }
     }
 }
