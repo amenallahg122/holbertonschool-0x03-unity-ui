@@ -11,12 +11,19 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody rb;
     public Text scoreText;
     public Text healthText;
+    public Text winLoseText;
+    public Image winLoseBG;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         UpdateScoreText();
         SetHealthText();
+
+        if (winLoseText != null)
+            winLoseText.gameObject.SetActive(false);
+        if (winLoseBG != null)
+            winLoseBG.gameObject.SetActive(false);
     }
 
     void FixedUpdate()
@@ -37,7 +44,6 @@ public class PlayerController : MonoBehaviour {
         {
             score++;
             UpdateScoreText();
-            //Debug.Log("Score: " + score);
             other.gameObject.SetActive(false);
         }
 
@@ -54,7 +60,18 @@ public class PlayerController : MonoBehaviour {
         
         if (other.CompareTag("Goal"))
         {
-            Debug.Log("You win!");
+            if (winLoseText != null)
+            {
+                winLoseText.gameObject.SetActive(true);
+                winLoseText.text = "You Win!";
+                winLoseText.color = Color.black;
+            }
+
+            if (winLoseBG != null)
+            {
+                winLoseBG.gameObject.SetActive(true);
+                winLoseBG.color = Color.green;
+            }
         }
     }
 
