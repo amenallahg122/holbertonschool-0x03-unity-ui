@@ -54,7 +54,20 @@ public class PlayerController : MonoBehaviour {
 
             if (health <= 0)
             {
-                Debug.Log("Game Over!");
+                if (winLoseText != null)
+                {
+                    winLoseText.gameObject.SetActive(true);
+                    winLoseText.text = "Game Over!";
+                    winLoseText.color = Color.white;
+                }
+
+                if (winLoseBG != null)
+                {
+                    winLoseBG.gameObject.SetActive(true);
+                    winLoseBG.color = Color.red;
+                }
+
+                StartCoroutine(LoadScene(3f));
             }
         }
         
@@ -72,23 +85,11 @@ public class PlayerController : MonoBehaviour {
                 winLoseBG.gameObject.SetActive(true);
                 winLoseBG.color = Color.green;
             }
+
+            StartCoroutine(LoadScene(3f));
         }
     }
 
-    void Update()
-    {
-        if (health <= 0)
-        {
-            Debug.Log("Game Over!");
-
-            score = 0;
-            UpdateScoreText();
-            health = 5;
-            SetHealthText();
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-    }
 
     void UpdateScoreText()
     {
@@ -104,5 +105,15 @@ public class PlayerController : MonoBehaviour {
         {
             healthText.text = "Health: " + health;
         }
+    }
+
+    IEnumerator LoadScene(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        score = 0;
+        health = 5;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
