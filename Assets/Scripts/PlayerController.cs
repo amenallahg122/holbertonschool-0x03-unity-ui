@@ -26,6 +26,14 @@ public class PlayerController : MonoBehaviour {
             winLoseBG.gameObject.SetActive(false);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("menu");
+        }
+    }
+
     void FixedUpdate()
     {
         float moveX = Input.GetAxis("Horizontal");
@@ -89,7 +97,6 @@ public class PlayerController : MonoBehaviour {
             StartCoroutine(LoadScene(3f));
         }
     }
-
 
     void UpdateScoreText()
     {
